@@ -9,12 +9,12 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinante\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinant\n\n> Your choice: ");
                 Console.WriteLine(Program.Caller(Console.ReadLine()));
             }
             catch (Exception exc)
             {
-                Console.WriteLine($"ERROR! - {exc.GetType()}: {exc.Message}");
+                Console.WriteLine($"\n\nERROR!\n{exc.GetType()}: {exc.Message}");
             }
         }
 
