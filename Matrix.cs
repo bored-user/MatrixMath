@@ -6,15 +6,15 @@ namespace MatrixMath
 {
     public class Matrix
     {
-        public long[,] matrix;
-        public long rows = 0;
-        public long cols = 0;
+        private long[,] matrix;
+        private long rows;
+        private long cols;
 
         /*
             Naming it "identation" is just a joke.
             It actually means the number of spaces in between the matrix members (horzontally speaking)
         */
-        private Dictionary<string, int> style = new Dictionary<string, int>() { ["identation"] = 1, ["biggestLength"] = 0 };
+        private Dictionary<string, int> style = new Dictionary<string, int>() { ["identation"] = 1 };
 
         public Matrix(long[] matrix, long rows)
         {
