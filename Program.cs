@@ -9,7 +9,7 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n\n> Your choice: ");
                 Console.WriteLine(Program.Caller(Console.ReadLine()));
             }
             catch (Exception exc)
@@ -70,6 +70,11 @@ namespace MatrixMath
                     return Matrix.IsAntiSymmetric(matrix1) ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
 
 
+                case "9":
+                    Console.Write("Input number of rows of identity matrix\n> Your choice: ");
+
+                    return Matrix.Identity(Convert.ToInt64(Console.ReadLine()));
+
                 default:
                     return -1;
             }
@@ -85,7 +90,7 @@ namespace MatrixMath
 
             Console.Write($"Input matrix{(num > 0 ? $" {num}" : "")} using a comma as separator (e.g 1,2,3,4,5,6)\n> Your choice: ");
             matrix = Console.ReadLine();
-            Console.Write($"> Input number of rows of matrix{(num > 0 ? $" {num}" : "")}: ");
+            Console.Write($"Input number of rows of matrix{(num > 0 ? $" {num}" : "")}:\n> Your choice: ");
             rows = Convert.ToInt64(Console.ReadLine());
 
             if (regex.Matches(matrix).Count < 1)

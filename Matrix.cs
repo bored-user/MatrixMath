@@ -133,6 +133,21 @@ namespace MatrixMath
             return matrix.rows == matrix.cols && Matrix.Negate(matrix).ToString() == Matrix.Transpose(matrix).ToString();
         }
 
+        public static Matrix Identity(long dimension)
+        {
+            string res = "";
+
+            for(long row = 0; row < dimension; row++)
+            {
+                for(long col = 0; col < dimension; col++)
+                {
+                    res += col == row ? "1," : "0,";
+                }
+            }
+
+            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), dimension);
+        }
+
         public static void IsValid(Matrix matrix1, Matrix matrix2, string operation)
         {
 
