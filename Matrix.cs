@@ -18,13 +18,14 @@ namespace MatrixMath
 
         public Matrix(long[] matrix, long rows)
         {
+            // Storing the length of the biggest number for formatting later
             this.style["biggestLength"] = matrix.OrderBy(n => n.ToString().Length).ToArray().Last().ToString().Length;
             this.cols = matrix.Length / rows;
             this.rows = rows;
             this.matrix = new long[this.rows, this.cols];
 
-            long row = 0;
-            long col = 0;
+            long row = 0,
+                col = 0;
 
             foreach (long n in matrix)
             {
@@ -39,12 +40,17 @@ namespace MatrixMath
             }
         }
 
+        // Debugging purposes
         public Matrix()
         {
             Matrix matrix = Program.GetMatrix();
             Console.WriteLine(matrix);
         }
 
+        /*
+            Addition and subtraction operations are very similar,
+            that's the reason for this wrapper existance
+        */
         private static Matrix SumSubWrapper(Matrix matrix1, Matrix matrix2, bool sum)
         {
             Matrix.IsValid(matrix1, matrix2, sum ? "sum" : "sub");
@@ -93,6 +99,7 @@ namespace MatrixMath
             return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix1.rows);
         }
 
+        // Turn every column into a row and every row into a column
         public static Matrix Transpose(Matrix matrix)
         {
             string res = "";
@@ -152,7 +159,8 @@ namespace MatrixMath
             }
         }
 
-        // // Matrix will only be valid if its length isn't a prime number
+        // First element = bool indicating if it is or not valid
+        // Second element = reason why it isn't
         public static object[] IsValid(string[] matrix, long rows)
         {
             if (matrix.Length % rows != 0) return new object[] { false, "Matrix length and row number aren't multiples" };
@@ -180,8 +188,8 @@ namespace MatrixMath
 
         public override string ToString()
         {
-            string res = "";
-            string padding = "".PadLeft(this.style["identation"], ' ');
+            string res = "",
+                padding = "".PadLeft(this.style["identation"], ' ');
             long n;
 
             for (long row = 0; row < this.rows; row++)
@@ -197,6 +205,14 @@ namespace MatrixMath
                 }
 
                 res += "|\n";
+
+                /*
+                    Format:
+                    |  1  2  3  4 |
+                    |  5  6  7  8 |
+                    |  9 10 11 12 |
+                    | 13 14 15 16 |
+                */
             }
 
             // Removing extra linebreak
