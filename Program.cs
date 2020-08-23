@@ -71,11 +71,11 @@ namespace MatrixMath
 
 
                 default:
-                    return new Matrix();
+                    return -1;
             }
         }
 
-        public static Matrix GetMatrix(int num = 0)
+        private static Matrix GetMatrix(int num = 0)
         {
             string matrix;
             long rows;

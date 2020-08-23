@@ -40,13 +40,6 @@ namespace MatrixMath
             }
         }
 
-        // Debugging purposes
-        public Matrix()
-        {
-            Matrix matrix = Program.GetMatrix();
-            Console.WriteLine(matrix);
-        }
-
         /*
             Addition and subtraction operations are very similar,
             that's the reason for this wrapper existance
