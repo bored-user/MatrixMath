@@ -9,7 +9,7 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinant\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n\n> Your choice: ");
                 Console.WriteLine(Program.Caller(Console.ReadLine()));
             }
             catch (Exception exc)
@@ -18,7 +18,7 @@ namespace MatrixMath
             }
         }
 
-        private static Matrix Caller(string input)
+        private static dynamic Caller(string input)
         {
             Matrix matrix1;
             Matrix matrix2;
@@ -44,6 +44,30 @@ namespace MatrixMath
                     matrix2 = Program.GetMatrix(2);
 
                     return Matrix.Multiply(matrix1, matrix2);
+
+
+                case "5":
+                    matrix1 = Program.GetMatrix();
+
+                    return Matrix.Transpose(matrix1);
+
+
+                case "6":
+                    matrix1 = Program.GetMatrix();
+
+                    return Matrix.Negate(matrix1);
+
+
+                case "7":
+                    matrix1 = Program.GetMatrix();
+
+                    return Matrix.IsSymmetric(matrix1) ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
+
+
+                case "8":
+                    matrix1 = Program.GetMatrix();
+
+                    return Matrix.IsAntiSymmetric(matrix1) ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
 
 
                 default:

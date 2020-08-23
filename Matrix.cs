@@ -93,6 +93,46 @@ namespace MatrixMath
             return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix1.rows);
         }
 
+        public static Matrix Transpose(Matrix matrix)
+        {
+            string res = "";
+
+            for (long col = 0; col < matrix.cols; col++)
+            {
+                for (long row = 0; row < matrix.rows; row++)
+                {
+                    res += $"{matrix.matrix[row, col]},";
+                }
+            }
+
+            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix.rows);
+        }
+
+        public static Matrix Negate(Matrix matrix)
+        {
+            string res = "";
+
+            for(long row = 0; row < matrix.rows; row++)
+            {
+                for(long col = 0; col < matrix.cols; col++)
+                {
+                    res += $"{matrix.matrix[row, col] * -1},";
+                }
+            }
+
+            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix.rows);
+        }
+
+        public static bool IsSymmetric(Matrix matrix)
+        {
+            return matrix.rows == matrix.cols && matrix.ToString() == Matrix.Transpose(matrix).ToString();
+        }
+
+        public static bool IsAntiSymmetric(Matrix matrix)
+        {
+            return matrix.rows == matrix.cols && Matrix.Negate(matrix).ToString() == Matrix.Transpose(matrix).ToString();
+        }
+
         public static void IsValid(Matrix matrix1, Matrix matrix2, string operation)
         {
 
