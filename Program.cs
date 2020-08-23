@@ -85,7 +85,6 @@ namespace MatrixMath
             string matrix;
             long rows;
             Regex regex = new Regex(@"\d+(,\d+)*(\.\d*)?");
-            string[] matrixArray;
             object[] isValid;
 
             Console.Write($"Input matrix{(num > 0 ? $" {num}" : "")} using a comma as separator (e.g 1,2,3,4,5,6)\n> Your choice: ");
@@ -99,13 +98,12 @@ namespace MatrixMath
             if (rows < 1)
                 throw new IndexOutOfRangeException("Matrix cannot have 0 or less rows");
 
-            matrixArray = matrix.Split(',');
-            isValid = Matrix.IsValid(matrixArray, rows);
+            isValid = Matrix.IsValid(matrix.Split(','), rows);
 
             if (!(bool)isValid[0])
                 throw new FormatException((string)isValid[1]);
 
-            return new Matrix(Matrix.Convert(matrixArray), rows);
+            return new Matrix(matrix, rows, false);
         }
     }
 }

@@ -16,8 +16,14 @@ namespace MatrixMath
         */
         private Dictionary<string, int> style = new Dictionary<string, int>() { ["identation"] = 1 };
 
-        public Matrix(long[] matrix, long rows)
+        public Matrix(string matrixStr, long rows, bool substr = true)
         {
+
+            string[] matrixArr = substr ? matrixStr.Substring(0, matrixStr.Length - 1).Split(',') : matrixStr.Split(',');
+            long[] matrix = new long[matrixArr.Length];
+            for(long i = 0; i < matrixArr.Length; i++)
+                matrix[i] = System.Convert.ToInt64(matrixArr[i]);
+
             // Storing the length of the biggest number for formatting later
             this.style["biggestLength"] = matrix.OrderBy(n => n.ToString().Length).ToArray().Last().ToString().Length;
             this.cols = matrix.Length / rows;
@@ -59,7 +65,7 @@ namespace MatrixMath
                 }
             }
 
-            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix1.rows);
+            return new Matrix(res, matrix1.rows);
         }
 
         public static Matrix Sum(Matrix matrix1, Matrix matrix2)
@@ -81,15 +87,15 @@ namespace MatrixMath
             {
                 for (long col = 0; col < matrix2.cols; col++)
                 {
-                    long _res = 0;
+                    long rowRes = 0;
                     for (long i = 0; i < matrix1.cols; i++)
-                        _res += matrix1.matrix[row, i] * matrix2.matrix[i, col];
+                        rowRes += matrix1.matrix[row, i] * matrix2.matrix[i, col];
 
-                    res += $"{_res},";
+                    res += $"{rowRes},";
                 }
             }
 
-            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix1.rows);
+            return new Matrix(res, matrix1.rows);
         }
 
         // Turn every column into a row and every row into a column
@@ -105,7 +111,7 @@ namespace MatrixMath
                 }
             }
 
-            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix.rows);
+            return new Matrix(res, matrix.rows);
         }
 
         public static Matrix Negate(Matrix matrix)
@@ -120,7 +126,7 @@ namespace MatrixMath
                 }
             }
 
-            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), matrix.rows);
+            return new Matrix(res, matrix.rows);
         }
 
         public static bool IsSymmetric(Matrix matrix)
@@ -141,11 +147,11 @@ namespace MatrixMath
             {
                 for(long col = 0; col < dimension; col++)
                 {
-                    res += col == row ? "1," : "0,";
+                    res += row == col ? "1," : "0,";
                 }
             }
 
-            return new Matrix(Matrix.Convert(res.Substring(0, res.Length - 1).Split(',')), dimension);
+            return new Matrix(res, dimension);
         }
 
         public static void IsValid(Matrix matrix1, Matrix matrix2, string operation)
@@ -185,15 +191,6 @@ namespace MatrixMath
             return new object[] { false, "A matrix with a prime number length isn't a regular matrix and therefore not valid here" };
         }
 
-        public static long[] Convert(string[] matrix)
-        {
-            long[] res = new long[matrix.Length];
-            for (long i = 0; i < matrix.Length; i++)
-                res[i] = System.Convert.ToInt64(matrix[i]);
-
-            return res;
-        }
-
         public override string ToString()
         {
             string res = "",
@@ -216,6 +213,7 @@ namespace MatrixMath
 
                 /*
                     Format:
+
                     |  1  2  3  4 |
                     |  5  6  7  8 |
                     |  9 10 11 12 |
