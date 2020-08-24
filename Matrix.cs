@@ -99,44 +99,71 @@ namespace MatrixMath
         }
 
         // Turn every column into a row and every row into a column
-        public static Matrix Transpose(Matrix matrix)
+        public Matrix Transpose()
         {
             string res = "";
 
-            for (long col = 0; col < matrix.cols; col++)
+            for (long col = 0; col < this.cols; col++)
             {
-                for (long row = 0; row < matrix.rows; row++)
+                for (long row = 0; row < this.rows; row++)
                 {
-                    res += $"{matrix.matrix[row, col]},";
+                    res += $"{this.matrix[row, col]},";
                 }
             }
 
-            return new Matrix(res, matrix.rows);
+            return new Matrix(res, this.rows);
         }
 
-        public static Matrix Negate(Matrix matrix)
+        public Matrix Negate()
         {
             string res = "";
 
-            for(long row = 0; row < matrix.rows; row++)
+            for(long row = 0; row < this.rows; row++)
             {
-                for(long col = 0; col < matrix.cols; col++)
+                for(long col = 0; col < this.cols; col++)
                 {
-                    res += $"{matrix.matrix[row, col] * -1},";
+                    res += $"{this.matrix[row, col] * -1},";
                 }
             }
 
-            return new Matrix(res, matrix.rows);
+            return new Matrix(res, this.rows);
         }
 
-        public static bool IsSymmetric(Matrix matrix)
+        public bool IsSymmetric()
         {
-            return matrix.rows == matrix.cols && matrix.ToString() == Matrix.Transpose(matrix).ToString();
+            return this.rows == this.cols && this.ToString() == this.Transpose().ToString();
         }
 
-        public static bool IsAntiSymmetric(Matrix matrix)
+        public bool IsAntiSymmetric()
         {
-            return matrix.rows == matrix.cols && Matrix.Negate(matrix).ToString() == Matrix.Transpose(matrix).ToString();
+            return this.rows == this.cols && this.Negate().ToString() == this.Transpose().ToString();
+        }
+
+        public long Determinant()
+        {
+            Matrix.IsValid(this, "det");
+
+            long det2x2(long a, long b, long c, long d)
+            {
+                return a * b - c * d;
+            }
+            long det3x3(long a, long detA, long b, long detB, long c, long detC)
+            {
+                return a * detA - b * detB + c * detC;
+            }
+            long[,] m = this.matrix;
+
+            switch(this.rows)
+            {
+                case 2:
+                    return det2x2(m[0, 0], m[1, 1], m[0, 1], m[1, 0]);
+
+                case 3:
+                    return det3x3(m[0, 0], det2x2(m[1, 1], m[2, 2], m[1, 2], m[2, 1]), m[0, 1], det2x2(m[1, 0], m[2, 2], m[1, 2], m[2, 1]), m[1, 1], det2x2(m[1, 0], m[2, 1], m[1, 1], m[2, 0]));
+
+                default:
+                    return 0;
+            }
         }
 
         public static Matrix Identity(long dimension)
@@ -156,7 +183,6 @@ namespace MatrixMath
 
         public static void IsValid(Matrix matrix1, Matrix matrix2, string operation)
         {
-
             switch (operation)
             {
                 case "sum":
@@ -169,6 +195,17 @@ namespace MatrixMath
                 case "div":
                     if (matrix1.rows != matrix2.cols || matrix1.cols != matrix2.rows)
                         throw new FormatException("Matrix 1 cols must be equal to Matrix 2 rows and vice versa.");
+                    break;
+            }
+        }
+
+        public static void IsValid(Matrix matrix1, string operation)
+        {
+            switch(operation)
+            {
+                case "det":
+                    if(matrix1.rows != matrix1.cols)
+                        throw new FormatException("Determinants can be calculated only with square matrices.");
                     break;
             }
         }

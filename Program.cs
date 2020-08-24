@@ -9,7 +9,7 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n10). Matrix determinant\n\n> Your choice: ");
                 Console.WriteLine(Program.Caller(Console.ReadLine()));
             }
             catch (Exception exc)
@@ -49,31 +49,38 @@ namespace MatrixMath
                 case "5":
                     matrix1 = Program.GetMatrix();
 
-                    return Matrix.Transpose(matrix1);
+                    return matrix1.Transpose();
 
 
                 case "6":
                     matrix1 = Program.GetMatrix();
 
-                    return Matrix.Negate(matrix1);
+                    return matrix1.Negate();
 
 
                 case "7":
                     matrix1 = Program.GetMatrix();
 
-                    return Matrix.IsSymmetric(matrix1) ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
+                    return matrix1.IsSymmetric() ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
 
 
                 case "8":
                     matrix1 = Program.GetMatrix();
 
-                    return Matrix.IsAntiSymmetric(matrix1) ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
+                    return matrix1.IsAntiSymmetric() ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
 
 
                 case "9":
                     Console.Write("Input number of rows of identity matrix\n> Your choice: ");
 
                     return Matrix.Identity(Convert.ToInt64(Console.ReadLine()));
+
+
+                case "10":
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.Determinant();
+                    
 
                 default:
                     return -1;
