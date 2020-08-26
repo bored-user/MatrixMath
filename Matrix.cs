@@ -21,7 +21,7 @@ namespace MatrixMath
 
             string[] matrixArr = substr ? matrixStr.Substring(0, matrixStr.Length - 1).Split(',') : matrixStr.Split(',');
             long[] matrix = new long[matrixArr.Length];
-            for(long i = 0; i < matrixArr.Length; i++)
+            for (long i = 0; i < matrixArr.Length; i++)
                 matrix[i] = System.Convert.ToInt64(matrixArr[i]);
 
             // Storing the length of the biggest number for formatting later
@@ -118,9 +118,9 @@ namespace MatrixMath
         {
             string res = "";
 
-            for(long row = 0; row < this.rows; row++)
+            for (long row = 0; row < this.rows; row++)
             {
-                for(long col = 0; col < this.cols; col++)
+                for (long col = 0; col < this.cols; col++)
                 {
                     res += $"{this.matrix[row, col] * -1},";
                 }
@@ -143,36 +143,16 @@ namespace MatrixMath
         {
             Matrix.IsValid(this, "det");
 
-            long det2x2(long a, long b, long c, long d)
-            {
-                return a * b - c * d;
-            }
-            long det3x3(long a, long detA, long b, long detB, long c, long detC)
-            {
-                return a * detA - b * detB + c * detC;
-            }
-            long[,] m = this.matrix;
-
-            switch(this.rows)
-            {
-                case 2:
-                    return det2x2(m[0, 0], m[1, 1], m[0, 1], m[1, 0]);
-
-                case 3:
-                    return det3x3(m[0, 0], det2x2(m[1, 1], m[2, 2], m[1, 2], m[2, 1]), m[0, 1], det2x2(m[1, 0], m[2, 2], m[1, 2], m[2, 1]), m[1, 1], det2x2(m[1, 0], m[2, 1], m[1, 1], m[2, 0]));
-
-                default:
-                    return 0;
-            }
+            return 0;
         }
 
         public static Matrix Identity(long dimension)
         {
             string res = "";
 
-            for(long row = 0; row < dimension; row++)
+            for (long row = 0; row < dimension; row++)
             {
-                for(long col = 0; col < dimension; col++)
+                for (long col = 0; col < dimension; col++)
                 {
                     res += row == col ? "1," : "0,";
                 }
@@ -201,10 +181,10 @@ namespace MatrixMath
 
         public static void IsValid(Matrix matrix1, string operation)
         {
-            switch(operation)
+            switch (operation)
             {
                 case "det":
-                    if(matrix1.rows != matrix1.cols)
+                    if (matrix1.rows != matrix1.cols)
                         throw new FormatException("Determinants can be calculated only with square matrices.");
                     break;
             }
@@ -230,36 +210,55 @@ namespace MatrixMath
 
         public override string ToString()
         {
+            /*
+                Format:
+
+                T  1  2  3  4 T
+                |  5  6  7  8 |
+                |  9 10 11 12 |
+                ┴ 13 14 15 16 ┴
+            */
+
             string res = "",
                 padding = "".PadLeft(this.style["identation"], ' ');
+            string Format(long n)
+            {
+                return Math.Abs(n) == n ?
+                        $"{padding}{n.ToString().PadRight(this.style["biggestLength"], ' ')}{padding}" :
+                        $"{padding}-{Math.Abs(n).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}"; ;
+            };
             long n;
 
-            for (long row = 0; row < this.rows; row++)
+            res += "T";
+            for (long col = 0; col < this.cols; col++)
+            {
+                n = this.matrix[0, col];
+                res += Format(n);
+            }
+            res += "T\n";
+
+            for (long row = 1; row < this.rows - 1; row++)
             {
                 res += "|";
 
                 for (long col = 0; col < this.cols; col++)
                 {
                     n = this.matrix[row, col];
-                    res += Math.Abs(n) == n ?
-                        $"{padding}{n.ToString().PadRight(this.style["biggestLength"], ' ')}{padding}" :
-                        $"{padding}-{Math.Abs(n).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}";
+                    res += Format(n);
                 }
 
                 res += "|\n";
-
-                /*
-                    Format:
-
-                    |  1  2  3  4 |
-                    |  5  6  7  8 |
-                    |  9 10 11 12 |
-                    | 13 14 15 16 |
-                */
             }
 
-            // Removing extra linebreak
-            return res.Substring(0, res.Length - 1);
+            res += "┴";
+            for (long col = 0; col < this.cols; col++)
+            {
+                n = this.matrix[this.rows - 1, col];
+                res += Format(n);
+            }
+            res += "┴";
+
+            return res;
         }
     }
 }
