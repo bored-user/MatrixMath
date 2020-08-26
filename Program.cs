@@ -9,7 +9,7 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n10). Matrix determinant\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n0). Visually represent a matrix\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n10). Matrix determinant\n\n> Your choice: ");
                 Console.WriteLine(Program.Caller(Console.ReadLine()));
             }
             catch (Exception exc)
@@ -25,6 +25,11 @@ namespace MatrixMath
 
             switch (input)
             {
+                case "0":
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1;
+
                 case "1":
                     matrix1 = Program.GetMatrix(1);
                     matrix2 = Program.GetMatrix(2);
@@ -80,7 +85,7 @@ namespace MatrixMath
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.Determinant();
-                    
+
 
                 default:
                     return -1;
