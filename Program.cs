@@ -9,11 +9,13 @@ namespace MatrixMath
         {
             try
             {
-                Console.Write("Howdy!\nWhat mathematical operation would you like to perform?\n\n0). Visually represent a matrix\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Transpose a matrix\n6). Negate a matrix\n7). Check for symmetry\n8). Check for anti-symmetry\n9). Get identity matrix\n10). Matrix determinant\n\n> Your choice: ");
-                Console.WriteLine(Program.Caller(Console.ReadLine()));
+                Console.Title = "MatrixMath";
+                Console.Write("Howdy!\nWhat matrix operation would you like to perform?\n\n0). Visually represent a matrix\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinant\n6). Transpose a matrix\n7). Negate a matrix\n8). Check for symmetry\n9). Check for anti-symmetry\n10). Get identity matrix\n\n> Your choice: ");
+                Console.WriteLine($"\n{Program.Caller(Console.ReadLine())}");
             }
             catch (Exception exc)
             {
+                Console.Title = "MatrixMath - ERROR";
                 Console.WriteLine($"\n\nERROR!\n{exc.GetType()}: {exc.Message}");
             }
         }
@@ -26,11 +28,13 @@ namespace MatrixMath
             switch (input)
             {
                 case "0":
+                    Console.Title = "MatrixMath - Visually represent a matrix";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1;
 
                 case "1":
+                    Console.Title = "Matrix addition";
                     matrix1 = Program.GetMatrix(1);
                     matrix2 = Program.GetMatrix(2);
 
@@ -38,6 +42,7 @@ namespace MatrixMath
 
 
                 case "2":
+                    Console.Title = "Matrix subtraction";
                     matrix1 = Program.GetMatrix(1);
                     matrix2 = Program.GetMatrix(2);
 
@@ -45,50 +50,63 @@ namespace MatrixMath
 
 
                 case "3":
+                    Console.Title = "Matrix multiplication";
                     matrix1 = Program.GetMatrix(1);
                     matrix2 = Program.GetMatrix(2);
 
                     return Matrix.Multiply(matrix1, matrix2);
 
 
+                case "4":
+                    Console.Title = "Matrix division";
+
+                    return null;
+
+
                 case "5":
-                    matrix1 = Program.GetMatrix();
-
-                    return matrix1.Transpose();
-
-
-                case "6":
-                    matrix1 = Program.GetMatrix();
-
-                    return matrix1.Negate();
-
-
-                case "7":
-                    matrix1 = Program.GetMatrix();
-
-                    return matrix1.IsSymmetric() ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
-
-
-                case "8":
-                    matrix1 = Program.GetMatrix();
-
-                    return matrix1.IsAntiSymmetric() ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
-
-
-                case "9":
-                    Console.Write("Input number of rows of identity matrix\n> Your choice: ");
-
-                    return Matrix.Identity(Convert.ToInt64(Console.ReadLine()));
-
-
-                case "10":
+                    Console.Title = "Matrix determinant";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.Determinant();
 
 
+                case "6":
+                Console.Title = "Transpose a matrix";
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.Transpose();
+
+
+                case "7":
+                Console.Title = "Negate a matrix";
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.Negate();
+
+
+                case "8":
+                    Console.Title = "Check for symmetry";
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.IsSymmetric() ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
+
+
+                case "9":
+                Console.Title = "Check for anti-symmetry";
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.IsAntiSymmetric() ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
+
+
+                case "10":
+                    Console.Title = "Get identity matrix";
+                    Console.Write("Input number of rows of identity matrix\n> Your choice: ");
+
+                    return Matrix.Identity(Convert.ToInt64(Console.ReadLine()));
+
+
                 default:
-                    return -1;
+                    throw new FormatException("Invalid operation selected.");
             }
         }
 
