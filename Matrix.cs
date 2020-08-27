@@ -104,14 +104,10 @@ namespace MatrixMath
             string res = "";
 
             for (long col = 0; col < this.cols; col++)
-            {
                 for (long row = 0; row < this.rows; row++)
-                {
                     res += $"{this.matrix[row, col]},";
-                }
-            }
 
-            return new Matrix(res, this.rows);
+            return new Matrix(res, this.cols);
         }
 
         public Matrix Negate()
@@ -141,7 +137,16 @@ namespace MatrixMath
 
         public long Determinant()
         {
-            Matrix.IsValid(this, "det");
+            Matrix.IsValid(this, null, "det");
+
+            switch (this.rows)
+            {
+                case 1:
+                    return this.matrix[0, 0];
+
+                case 2:
+                    return this.matrix[0, 0] * this.matrix[1, 1] - this.matrix[0, 1] * this.matrix[1, 0];
+            }
 
             return 0;
         }
@@ -161,7 +166,7 @@ namespace MatrixMath
             return new Matrix(res, dimension);
         }
 
-        public static void IsValid(Matrix matrix1, Matrix matrix2, string operation)
+        public static void IsValid(Matrix matrix1, dynamic matrix2, string operation)
         {
             switch (operation)
             {
@@ -176,13 +181,7 @@ namespace MatrixMath
                     if (matrix1.rows != matrix2.cols || matrix1.cols != matrix2.rows)
                         throw new FormatException("Matrix 1 cols must be equal to Matrix 2 rows and vice versa.");
                     break;
-            }
-        }
 
-        public static void IsValid(Matrix matrix1, string operation)
-        {
-            switch (operation)
-            {
                 case "det":
                     if (matrix1.rows != matrix1.cols)
                         throw new FormatException("Determinants can be calculated only with square matrices.");
@@ -233,7 +232,7 @@ namespace MatrixMath
                 for (long col = 0; col < this.cols; col++)
                     res += Math.Abs(this.matrix[row, col]) == this.matrix[row, col] ?
                         $"{padding}{this.matrix[row, col].ToString().PadRight(this.style["biggestLength"], ' ')}{padding}" :
-                        $"{padding}-{Math.Abs(this.matrix[row, col]).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}";;
+                        $"{padding}-{Math.Abs(this.matrix[row, col]).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}"; ;
 
                 res += " ⎥\n";
             }
