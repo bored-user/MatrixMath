@@ -213,51 +213,33 @@ namespace MatrixMath
             /*
                 Format:
 
-                T  1  2  3  4 T
-                |  5  6  7  8 |
-                |  9 10 11 12 |
-                ┴ 13 14 15 16 ┴
+                ⎡ 1   2   3   4  ⎤
+                ⎢ 5   6   7   8  ⎢
+                ⎢ 9   10  11  12 ⎢
+                ⎣ 13  14  15  16 ⎦
+
+
+                Got UNICODE bracket-like characters from https://unicode-search.net/unicode-namesearch.pl?term=bracket
             */
 
+            int rowLength;
             string res = "",
                 padding = "".PadLeft(this.style["identation"], ' ');
-            string Format(long n)
-            {
-                return Math.Abs(n) == n ?
-                        $"{padding}{n.ToString().PadRight(this.style["biggestLength"], ' ')}{padding}" :
-                        $"{padding}-{Math.Abs(n).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}"; ;
-            };
-            long n;
 
-            res += "T";
-            for (long col = 0; col < this.cols; col++)
+            for (long row = 0; row < this.rows; row++)
             {
-                n = this.matrix[0, col];
-                res += Format(n);
-            }
-            res += "T\n";
-
-            for (long row = 1; row < this.rows - 1; row++)
-            {
-                res += "|";
+                res += "⎢ ";
 
                 for (long col = 0; col < this.cols; col++)
-                {
-                    n = this.matrix[row, col];
-                    res += Format(n);
-                }
+                    res += Math.Abs(this.matrix[row, col]) == this.matrix[row, col] ?
+                        $"{padding}{this.matrix[row, col].ToString().PadRight(this.style["biggestLength"], ' ')}{padding}" :
+                        $"{padding}-{Math.Abs(this.matrix[row, col]).ToString().PadRight(this.style["biggestLength"] - 1, ' ')}{padding}";;
 
-                res += "|\n";
+                res += " ⎥\n";
             }
 
-            res += "┴";
-            for (long col = 0; col < this.cols; col++)
-            {
-                n = this.matrix[this.rows - 1, col];
-                res += Format(n);
-            }
-            res += "┴";
-
+            rowLength = res.Split("\n")[0].Length - 2;
+            res = $"⎡{"".PadLeft(rowLength, ' ')}⎤\n{res}⎣{"".PadLeft(rowLength, ' ')}⎦";
             return res;
         }
     }
