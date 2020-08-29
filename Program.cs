@@ -10,7 +10,7 @@ namespace MatrixMath
             try
             {
                 Console.Title = "MatrixMath";
-                Console.Write("Howdy!\nWhat matrix operation would you like to perform?\n\n0). Visually represent a matrix\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinant\n6). Transpose a matrix\n7). Negate a matrix\n8). Check for symmetry\n9). Check for anti-symmetry\n10). Get identity matrix\n\n> Your choice: ");
+                Console.Write("Howdy!\nWhat matrix operation would you like to perform?\n\n0). Visually represent a matrix\n1). Matrix addition\n2). Matrix subtraction\n3). Matrix multiplication\n4). Matrix division\n5). Matrix determinant\n6). Transpose a matrix\n7). Negate a matrix\n8). Invert a matrix\n9). Check for symmetry\n10). Check for anti-symmetry\n11). Get identity matrix\n12). Generate square matrix members (to calculate things like determinant)\n\n> Your choice: ");
                 Console.WriteLine($"\n{Program.Caller(Console.ReadLine())}");
             }
             catch (Exception exc)
@@ -71,42 +71,63 @@ namespace MatrixMath
 
 
                 case "6":
-                Console.Title = "Transpose a matrix";
+                    Console.Title = "Transpose a matrix";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.Transpose();
 
 
                 case "7":
-                Console.Title = "Negate a matrix";
+                    Console.Title = "Negate a matrix";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.Negate();
 
 
                 case "8":
+                    Console.Title = "Invert a matrix";
+                    matrix1 = Program.GetMatrix();
+
+                    return matrix1.Inverse();
+
+
+                case "9":
                     Console.Title = "Check for symmetry";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.IsSymmetric() ? "Given matrix is symmetric" : "Given matrix isn't symmetric";
 
 
-                case "9":
-                Console.Title = "Check for anti-symmetry";
+                case "10":
+                    Console.Title = "Check for anti-symmetry";
                     matrix1 = Program.GetMatrix();
 
                     return matrix1.IsAntiSymmetric() ? "Given matrix is anti-symmetric" : "Given matrix isn't anti-symmetric";
 
 
-                case "10":
+                case "11":
                     Console.Title = "Get identity matrix";
                     Console.Write("Input number of rows of identity matrix\n> Your choice: ");
 
                     return Matrix.Identity(Convert.ToInt64(Console.ReadLine()));
 
 
+                case "12":
+                    Console.Title = "Generate square matrix members";
+                    Console.Write("Input number of rows of matrix\n> Your choice: ");
+                    long max = (long)Math.Pow(Convert.ToInt64(Console.ReadLine()), 2);
+
+                    string res = "";
+                    for (long n = 1; n <= max; n++)
+                    {
+                        res += $"{n},";
+                    }
+
+                    return res.Substring(0, res.Length - 1);
+
+
                 default:
-                    throw new FormatException("Invalid operation selected.");
+                    throw new IndexOutOfRangeException("Invalid operation selected.");
             }
         }
 
