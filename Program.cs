@@ -59,8 +59,10 @@ namespace MatrixMath
 
                 case "4":
                     Console.Title = "Matrix division";
+                    matrix1 = Program.GetMatrix(1);
+                    matrix2 = Program.GetMatrix(2);
 
-                    return null;
+                    return Matrix.Divide(matrix1, matrix2);
 
 
                 case "5":
