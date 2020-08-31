@@ -167,13 +167,13 @@ namespace MatrixMath
                 for (long col = 0; col < this.cols; col++)
                 {
                     decimal minorDet = Matrix.RemoveLine(Matrix.RemoveLine(this, row, false), col, true).Determinant();
-                    cofactors += $"{(change == 0 ? minorDet : minorDet * -1)},";
+                    cofactors += $"{(change == 0 ? +minorDet : -minorDet)},";
                     change ^= 1;
                 }
 
             Matrix adjugate = new Matrix(cofactors, this.rows).Transpose();
             foreach (decimal n in adjugate.matrix)
-                inverse += $"{n * 1 / det},";
+                inverse += $"{n * (1 / det)},";
 
             return new Matrix(inverse, this.rows);
         }
@@ -214,15 +214,19 @@ namespace MatrixMath
                         throw new FormatException("Matrix 1 cols must be equal to Matrix 2 rows and vice versa.");
                     break;
 
+                case "div":
+                    if (matrix1.rows != matrix1.cols || matrix1.Determinant() == 0 || matrix2.Determinant() == 0)
+                        throw new FormatException("Matrices can only be inverted when determinants aren't zero (which can only be calculated with square matrices).");
+                    break;
+
                 case "det":
-                case "inv":
                     if (matrix1.rows != matrix1.cols)
                         throw new FormatException("Determinants can be calculated only with square matrices.");
                     break;
 
-                case "div":
-                    if (matrix2.Determinant() == 0)
-                        throw new FormatException("No unique solution!");
+                case "inv":
+                    if(matrix1.Determinant() == 0)
+                        throw new FormatException("A matrix which determinant is zero is not inversible.");
                     break;
             }
         }
