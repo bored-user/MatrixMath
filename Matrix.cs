@@ -25,7 +25,7 @@ namespace MatrixMath
                 matrix[i] = System.Convert.ToDecimal(matrixArr[i]);
 
             // Storing the length of the biggest number for formatting later
-            this.style["biggestLength"] = matrix.OrderBy(n => n.ToString().Length).ToArray().Last().ToString().Length;
+            this.style["biggestLength"] = matrix.OrderBy(n => n.ToString().Length).Last().ToString().Length;
             this.cols = matrix.Length / rows;
             this.rows = rows;
             this.matrix = new decimal[this.rows, this.cols];
